@@ -1,4 +1,4 @@
-package com.example;
+package info.pravasa;
 
 import com.vaadin.flow.theme.lumo.Lumo;
 import org.springframework.boot.SpringApplication;
