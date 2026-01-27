@@ -31,4 +31,17 @@ public class RouteService {
         ResponseEntity<List<RouteDto>> response = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<List<RouteDto>>() {});
         return response.getBody();
     }
+
+    public void save(RouteDto routeDto){
+        String url = URL +"/save";
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+
+        HttpEntity<RouteDto> entity = new HttpEntity<>(routeDto, httpHeaders);
+        restTemplate.exchange(url, HttpMethod.POST, entity, Void.class);
+
+    }
+
+
+
 }

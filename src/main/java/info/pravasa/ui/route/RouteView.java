@@ -1,7 +1,9 @@
 package info.pravasa.ui.route;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Menu;
@@ -11,6 +13,7 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import info.pravasa.dto.Company;
 import info.pravasa.dto.DepotDto;
 import info.pravasa.dto.RouteDto;
+import info.pravasa.ui.route.component.NewRouteDialog;
 import info.pravasa.ui.route.component.RouteDetailDialog;
 
 import java.util.List;
@@ -25,6 +28,8 @@ public class RouteView extends VerticalLayout {
     private ComboBox<Company> companyComboBox;
 
     private ComboBox<DepotDto> depotDtoComboBox;
+
+    private Button addNewRoute;
 
     private HorizontalLayout topLayout;
 
@@ -66,7 +71,26 @@ public class RouteView extends VerticalLayout {
             }
         });
 
-        topLayout = new HorizontalLayout(companyComboBox, depotDtoComboBox);
+        addNewRoute = new Button("Add New Route");
+        addNewRoute.getElement().getStyle().set("margin-top","2.3rem");
+
+        setButtonListener();
+        topLayout = new HorizontalLayout(companyComboBox, depotDtoComboBox, addNewRoute);
+    }
+
+    private void setButtonListener(){
+        addNewRoute.addClickListener(event ->{
+            if(Objects.isNull(companyComboBox.getValue())){
+                Notification.show("Please select Transport Company");
+            }
+            else if(Objects.isNull(depotDtoComboBox.getValue())){
+                Notification.show("Please select Depot");
+            }
+            else{
+                NewRouteDialog dialog = new NewRouteDialog(depotDtoComboBox.getValue(), routeDto -> routePresenter.saveRoute(routeDto));
+                dialog.open();
+            }
+        });
     }
 
     private void initializeGridLayout(){
@@ -75,6 +99,8 @@ public class RouteView extends VerticalLayout {
         routeDtoGrid.addColumn(RouteDto::getSource).setHeader("Source");
         routeDtoGrid.addColumn(RouteDto::getDestination).setHeader("Destination");
         routeDtoGrid.addColumn(RouteDto::getRouteDescription).setHeader("Description");
+        routeDtoGrid.addColumn(dto -> Objects.isNull(dto.getRouteType()) ? "" : dto.getRouteType().getDisplayName()).setHeader("Route Type");
+        routeDtoGrid.addColumn(dto -> Objects.isNull(dto.getServiceType()) ? "" : dto.getServiceType().getDisplayName()).setHeader("Service Type");
 
         routeDtoGrid.addItemClickListener(event -> {
             RouteDetailDialog dialog = new RouteDetailDialog(event.getItem());

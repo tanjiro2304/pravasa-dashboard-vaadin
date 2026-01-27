@@ -38,4 +38,8 @@ public class RoutePresenter {
     public List<RouteDto> fetchRouteByDepot(@NotNull Long depotId){
         return routeService.fetchAllRoutes(depotId);
     }
+
+    public void saveRoute(RouteDto routeDto){
+        routeService.save(routeDto);
+    }
 }
