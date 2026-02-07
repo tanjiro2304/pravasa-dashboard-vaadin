@@ -68,7 +68,7 @@ public class NewRouteDialog extends Dialog {
         routeTypes.setItemLabelGenerator(RouteType::getDisplayName);
         serviceTypeComboBox.setItemLabelGenerator(ServiceType::getDisplayName);
 
-        VerticalLayout verticalLayout = new VerticalLayout(routeNo,source,destination,routeTypes,serviceTypeComboBox, submit);
+        VerticalLayout verticalLayout = new VerticalLayout(routeNo,source,destination,description,routeTypes,serviceTypeComboBox, submit);
         verticalLayout.setSizeFull();
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         add(verticalLayout);
@@ -80,7 +80,7 @@ public class NewRouteDialog extends Dialog {
         binder.forField(destination).bind(RouteDto::getDestination, RouteDto::setDestination);
         binder.forField(routeTypes).bind(RouteDto::getRouteType, RouteDto::setRouteType);
         binder.forField(serviceTypeComboBox).bind(RouteDto::getServiceType, RouteDto::setServiceType);
-        binder.forField(destination).bind(RouteDto::getRouteDescription, RouteDto::setRouteDescription);
+        binder.forField(description).bind(RouteDto::getRouteDescription, RouteDto::setRouteDescription);
 
     }
 
