@@ -69,7 +69,6 @@ public class DepotManagementView extends VerticalLayout {
         depotDtoGrid.addColumn(DepotDto::getAddress).setHeader("Address");
         depotDtoGrid.addColumn(DepotDto::getContact).setHeader("Contact");
         depotDtoGrid.addColumn(DepotDto::getEmail).setHeader("Email");
-
         depotDtoGrid.setHeightFull();
     }
 }
