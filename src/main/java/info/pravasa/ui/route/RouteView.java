@@ -6,6 +6,8 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.data.renderer.LitRenderer;
+import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.spring.annotation.SpringComponent;
@@ -101,7 +103,10 @@ public class RouteView extends VerticalLayout {
         routeDtoGrid.addColumn(RouteDto::getRouteDescription).setHeader("Description");
         routeDtoGrid.addColumn(dto -> Objects.isNull(dto.getRouteType()) ? "" : dto.getRouteType().getDisplayName()).setHeader("Route Type");
         routeDtoGrid.addColumn(dto -> Objects.isNull(dto.getServiceType()) ? "" : dto.getServiceType().getDisplayName()).setHeader("Service Type");
-
+        routeDtoGrid.addColumn(new NativeButtonRenderer<>("Edit", clickedItem -> {
+            NewRouteDialog newRouteDialog = new NewRouteDialog(depotDtoComboBox.getValue(), routeDto -> routePresenter.saveRoute(routeDto));
+            newRouteDialog.open();
+        }));
         routeDtoGrid.addItemClickListener(event -> {
             RouteDetailDialog dialog = new RouteDetailDialog(event.getItem());
             dialog.open();
