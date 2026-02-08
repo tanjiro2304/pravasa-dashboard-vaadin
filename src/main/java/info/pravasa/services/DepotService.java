@@ -13,7 +13,7 @@ import java.util.List;
 public class DepotService {
     private RestTemplate restTemplate;
 
-    private final static String URL = "http://localhost:8080/depot";
+    private final static String URL = "http://localhost:8081/depot";
     public DepotService(RestTemplate restTemplate){
         this.restTemplate = restTemplate;
     }
