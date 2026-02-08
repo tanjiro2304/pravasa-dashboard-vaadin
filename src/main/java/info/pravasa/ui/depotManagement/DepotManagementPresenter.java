@@ -35,4 +35,6 @@ public class DepotManagementPresenter {
     }
 
 
+    public void save(DepotDto dto) {
+    }
 }

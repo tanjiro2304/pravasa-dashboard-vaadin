@@ -25,13 +25,13 @@ public class CompanyService {
         return reponse.getBody();
     }
 
-    public void save(Company company) {
+    public Company save(Company company) {
         String url = URL +"/save";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<Company> entity = new HttpEntity<>(company, httpHeaders);
-        restTemplate.exchange(url, HttpMethod.POST, entity, Void.class);
+        return restTemplate.exchange(url, HttpMethod.POST, entity, Company.class).getBody();
     }
 
 //    private Mono<Company> saveCompany(Company company){

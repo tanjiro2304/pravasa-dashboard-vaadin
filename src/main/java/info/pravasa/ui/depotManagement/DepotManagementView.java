@@ -41,7 +41,7 @@ public class DepotManagementView extends VerticalLayout {
     private void initializeMainFields() {
         companyComboBox = new ComboBox<>("Company");
         companyComboBox.setItemLabelGenerator(Company::getCompanyName);
-        companyComboBox.setItems(depotManagementPresenter.fetchAllCompanies());
+        companyComboBox.setItems(depotManagementPresenter.fetchAllCompanies().stream().filter(dto -> dto.getCompanyType().getId() != 1).toList());
         companyComboBox.addValueChangeListener(event -> {
             if(Objects.nonNull(event.getValue())){
                 List<DepotDto> dtoList =depotManagementPresenter.fetchAllDepotByCompany(event.getValue().getId());
@@ -52,7 +52,8 @@ public class DepotManagementView extends VerticalLayout {
         addDepot = new Button("Add Depot");
         addDepot.addClickListener(event -> {
             if(Objects.nonNull(companyComboBox.getValue())){
-                AddDepotDialog addDepotDialog = new AddDepotDialog(companyComboBox.getValue());
+                AddDepotDialog addDepotDialog = new AddDepotDialog(companyComboBox.getValue(), new DepotDto(),
+                        dto -> depotManagementPresenter.save(dto));
                 addDepotDialog.open();
             }else{
                 Notification.show("Select a Company", 3000, Notification.Position.TOP_CENTER);

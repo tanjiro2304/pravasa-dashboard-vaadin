@@ -13,6 +13,7 @@ import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import info.pravasa.dto.City;
 import info.pravasa.dto.Company;
+import info.pravasa.dto.enums.CompanyType;
 import info.pravasa.dto.enums.ModeOfTransport;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +31,7 @@ public class AddEditDialog extends Dialog {
     private EmailField emailField;
     private MultiSelectComboBox<City> cityMultiSelectComboBox;
     private ComboBox<ModeOfTransport> modeOfTransportComboBox;
+    private ComboBox<CompanyType> companyTypeComboBox;
     private TextField contactInfo;
     private VerticalLayout mainlayout;
     private Binder<Company> binder;
@@ -57,6 +59,10 @@ public class AddEditDialog extends Dialog {
         emailField.setWidthFull();
         cityMultiSelectComboBox = new MultiSelectComboBox<>("Select Cities");
         cityMultiSelectComboBox.setWidthFull();
+        companyTypeComboBox = new ComboBox<>("Company Type");
+        companyTypeComboBox.setWidthFull();
+        companyTypeComboBox.setItemLabelGenerator(CompanyType::getName);
+        companyTypeComboBox.setItems(CompanyType.values());
         contactInfo = new TextField("Contact Info");
         contactInfo.setWidthFull();
         modeOfTransportComboBox = new ComboBox<>("Mode of Transport");
@@ -87,7 +93,7 @@ public class AddEditDialog extends Dialog {
         binder.forField(address).bind(Company::getAddress, Company::setAddress);
         binder.forField(modeOfTransportComboBox).bind(Company::getModeOfTransport, Company::setModeOfTransport);
         binder.forField(cityMultiSelectComboBox).bind(Company::getCities, Company::setCities);
-
+        binder.forField(companyTypeComboBox).bind(Company::getCompanyType, Company::setCompanyType);
         if(company.getId() != null){
             binder.readBean(company);
         }
@@ -95,7 +101,7 @@ public class AddEditDialog extends Dialog {
 
     private void setMainLayout(){
         mainlayout = new VerticalLayout(new HorizontalLayout(companyName,address),new HorizontalLayout(emailField, contactInfo),
-                new HorizontalLayout(cityMultiSelectComboBox,modeOfTransportComboBox),submit);
+                new HorizontalLayout(cityMultiSelectComboBox,modeOfTransportComboBox),new HorizontalLayout(companyTypeComboBox),submit);
         mainlayout.setWidthFull();
 
         setHeight("28rem");

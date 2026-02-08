@@ -26,8 +26,8 @@ public class CompanyPresenter {
         return this.companyService.fetchAllCompanies();
     }
 
-    public void saveCompany(Company company){
-        this.companyService.save(company);
+    public Company saveCompany(Company company){
+        return this.companyService.save(company);
     }
 
     public List<City> fetchAllCities() {
