@@ -16,6 +16,7 @@ import info.pravasa.ui.depotManagement.component.AddDepotDialog;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @UIScope
 @SpringComponent
@@ -53,7 +54,7 @@ public class DepotManagementView extends VerticalLayout {
         addDepot.addClickListener(event -> {
             if(Objects.nonNull(companyComboBox.getValue())){
                 AddDepotDialog addDepotDialog = new AddDepotDialog(companyComboBox.getValue(), new DepotDto(),
-                        dto -> depotManagementPresenter.save(dto));
+                        dto -> depotManagementPresenter.save(dto), depotManagementPresenter.fetchAllCompanies().stream().collect(Collectors.toMap(Company::getId, company -> company)));
                 addDepotDialog.open();
             }else{
                 Notification.show("Select a Company", 3000, Notification.Position.TOP_CENTER);

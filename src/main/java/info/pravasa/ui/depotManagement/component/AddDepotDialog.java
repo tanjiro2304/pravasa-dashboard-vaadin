@@ -3,8 +3,10 @@ package info.pravasa.ui.depotManagement.component;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.EmailField;
@@ -19,6 +21,9 @@ import info.pravasa.dto.FleetInformationDto;
 import lombok.extern.slf4j.Slf4j;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -44,11 +49,6 @@ public class AddDepotDialog extends Dialog {
 
     private TextField contactInfo;
 
-    private NumberField fleetCount;
-    private NumberField electricFleet;
-    private NumberField cngFleet;
-    private NumberField dieselFleet;
-
     private Binder<DepotDto> binder;
 
     private VerticalLayout mainLayout;
@@ -65,19 +65,28 @@ public class AddDepotDialog extends Dialog {
 
     private Checkbox dieselStation;
 
+    private Button addFleetInfoButton;
+
+    private List<FleetInformationDto> fleetInformationDtoList = new ArrayList<>();
+
     private Grid<FleetInformationDto> fleetInformationDtoGrid;
 
+    private Map<Long, Company> companyMap;
+
     private VerticalLayout fleetInfoLayout;
-    public AddDepotDialog(Company selectedCompany, DepotDto depotDto, Consumer<DepotDto> depotConsumer) {
+    public AddDepotDialog(Company selectedCompany, DepotDto depotDto, Consumer<DepotDto> depotConsumer, Map<Long, Company> companyMap) {
         this.selectedCompany = selectedCompany;
+        this.companyMap = companyMap;
         this.depotDto = depotDto;
         this.depotConsumer = depotConsumer;
         initializeFields();
         initializeFleetLayout();
         initializeBinder();
+        initializeFleetBinder();
         initializeMainLayout();
-
-        add(mainLayout, fleetInfoLayout);
+        HorizontalLayout mainHorizontalLayout = new HorizontalLayout(mainLayout, fleetInfoLayout);
+        mainHorizontalLayout.setSizeFull();
+        add(mainHorizontalLayout);
     }
 
     private void initializeFields() {
@@ -89,13 +98,7 @@ public class AddDepotDialog extends Dialog {
         latitude = new NumberField("Latitude");
         longitude = new NumberField("Longitude");
         staffCount = new TextField("Staff Count");
-        routeCount = new NumberField("Fleet Count");
-        fleetCount = new NumberField("Fleet Count");
-
-        electricFleet = new NumberField("Electric Fleet");
-        cngFleet = new NumberField("CNG Fleet");
-        dieselFleet = new NumberField("Diesel Fleet");
-
+        routeCount = new NumberField("Number of Routes");
         cngStation = new Checkbox("CNG Station");
         electricChargingStation = new Checkbox("Electric Charging Station");
         dieselStation = new Checkbox("Diesel Station");
@@ -114,15 +117,93 @@ public class AddDepotDialog extends Dialog {
         });
     }
 
+    private void initializeFleetBinder(){
+
+    }
+
     private void initializeFleetLayout(){
         fleetInformationDtoGrid = new Grid<>();
-        fleetInformationDtoGrid.addColumn(FleetInformationDto::getContractorName).setHeader("Fleet Type");
-        fleetInformationDtoGrid.addColumn(FleetInformationDto::getCngFleet).setHeader("Fleet Count");
-        fleetInformationDtoGrid.addColumn(FleetInformationDto::getElectricFleet).setHeader("Fleet Count");
-        fleetInformationDtoGrid.addColumn(FleetInformationDto::getDieselFleet).setHeader("Fleet Count");
+        Grid.Column<FleetInformationDto> fleetInformationDtoColumn = fleetInformationDtoGrid.addColumn(FleetInformationDto::getContractorName);
+        Grid.Column<FleetInformationDto> cngFleet = fleetInformationDtoGrid.addColumn(FleetInformationDto::getCngFleet).setHeader("CNG Fleet");
+        Grid.Column<FleetInformationDto> electricFleet = fleetInformationDtoGrid.addColumn(FleetInformationDto::getElectricFleet).setHeader("Electric Fleet");
+        Grid.Column<FleetInformationDto> dieselFleet = fleetInformationDtoGrid.addColumn(FleetInformationDto::getDieselFleet).setHeader("Diesel Fleet");
 
-        fleetInfoLayout = new VerticalLayout(new HorizontalLayout(electricFleet, cngFleet, dieselFleet),
-                new HorizontalLayout(electricChargingStation, cngStation, dieselStation), fleetInformationDtoGrid);
+        fleetInformationDtoGrid.setItems(fleetInformationDtoList);
+        addFleetInfoButton = new Button("Add Fleet Info", event -> {
+            FleetInformationDto fleetInformationDto = FleetInformationDto.builder()
+                    .build();
+               fleetInformationDtoList.add(fleetInformationDto);
+               fleetInformationDtoGrid.getDataProvider().refreshAll();
+        });
+
+
+        Editor<FleetInformationDto> editor = fleetInformationDtoGrid.getEditor();
+        fleetInformationDtoGrid.addItemClickListener(item -> {
+            if(!editor.isOpen()){
+                editor.editItem(item.getItem());
+            }else{
+                editor.save();
+                editor.editItem(item.getItem());
+            }
+        });
+        ComboBox<Company> companyComboBox = new ComboBox<>();
+        companyComboBox.setItemLabelGenerator(Company::getCompanyName);
+        companyComboBox.setItems(companyMap.values());
+        NumberField cngFleetField = new NumberField();
+        NumberField electricFleetField = new NumberField();
+        NumberField dieselFleetField = new NumberField();
+        Binder<FleetInformationDto>  fleetBinder = new Binder<>();
+
+        fleetInformationDtoColumn.setEditorComponent(companyComboBox);
+        cngFleet.setEditorComponent(cngFleetField);
+        electricFleet.setEditorComponent(electricFleetField);
+        dieselFleet.setEditorComponent(dieselFleetField);
+
+        fleetBinder.forField(companyComboBox).bind(company -> {
+            if(Objects.nonNull(company.getContractorId())){
+                return companyMap.get(company.getContractorId());
+            }
+            return null;
+        }, (fleetInformationDto, company) -> {
+            if(Objects.nonNull(company)){
+                fleetInformationDto.setContractorId(company.getId());
+                fleetInformationDto.setContractorName(company.getCompanyName());
+            }else{
+                fleetInformationDto.setContractorId(null);
+            }
+        });
+
+
+        fleetBinder.forField(cngFleetField).bind(dto -> (double) (Objects.nonNull(dto.getCngFleet()) ? dto.getCngFleet() :0),
+                 (dto, cng) -> {
+                     if(Objects.nonNull(cng)){
+                         dto.setCngFleet(cng.intValue());
+                     }else{
+                         dto.setCngFleet(0);
+                     }
+                 });
+
+        fleetBinder.forField(dieselFleetField).bind(dto -> (double) (Objects.nonNull(dto.getDieselFleet()) ? dto.getDieselFleet() :0),
+                (dto, count) -> {
+                    if(Objects.nonNull(count)){
+                        dto.setDieselFleet(count.intValue());
+                    }else{
+                        dto.setCngFleet(0);
+                    }
+                });
+
+        fleetBinder.forField(electricFleetField).bind(dto -> (double) (Objects.nonNull(dto.getElectricFleet()) ? dto.getElectricFleet() :0),
+                (dto, count) -> {
+                    if(Objects.nonNull(count)){
+                        dto.setElectricFleet(count.intValue());
+                    }else{
+                        dto.setElectricFleet(0);
+                    }
+                });
+        editor.setBinder(fleetBinder);
+
+        fleetInfoLayout = new VerticalLayout(
+                new HorizontalLayout(electricChargingStation, cngStation, dieselStation), addFleetInfoButton, fleetInformationDtoGrid);
     }
 
     private void initializeBinder(){
@@ -163,7 +244,7 @@ public class AddDepotDialog extends Dialog {
                 new HorizontalLayout(depotAddress), submit);
         mainLayout.setSizeFull();
         setHeight("35rem");
-        setWidth("50rem");
+        setWidth("70rem");
         setCloseOnOutsideClick(true);
         setCloseOnEsc(true);
         setDraggable(true);
