@@ -108,6 +108,8 @@ public class AddDepotDialog extends Dialog {
 
             try {
                 binder.writeBean(depotDto);
+                depotDto.setCompanyList(fleetInformationDtoList);
+                depotDto.setCompanyId(selectedCompany.getId());
                 depotConsumer.accept(depotDto);
             } catch (ValidationException e) {
                 log.error("Error while writing bean:", e.getCause());
@@ -188,7 +190,7 @@ public class AddDepotDialog extends Dialog {
                     if(Objects.nonNull(count)){
                         dto.setDieselFleet(count.intValue());
                     }else{
-                        dto.setCngFleet(0);
+                        dto.setDieselFleet(0);
                     }
                 });
 
@@ -233,7 +235,9 @@ public class AddDepotDialog extends Dialog {
                     }
                 });
 
-
+        binder.forField(cngStation).bind(DepotDto::getCngRefuellingStation, DepotDto::setChargingStation);
+        binder.forField(electricChargingStation).bind(DepotDto::getChargingStation, DepotDto::setChargingStation);
+        binder.forField(dieselStation).bind(DepotDto::getDieselRefuellingStation, DepotDto::setDieselRefuellingStation);
     }
 
     private void initializeMainLayout(){
