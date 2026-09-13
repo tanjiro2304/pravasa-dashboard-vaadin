@@ -1,4 +1,4 @@
-package info.pravasa.ui.home;
+package info.pravasa.ui.roadTransport.home;
 
 import com.vaadin.flow.component.menubar.MenuBar;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;

@@ -1,4 +1,4 @@
-package info.pravasa.ui.depotManagement;
+package info.pravasa.ui.roadTransport.depotManagement;
 
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;

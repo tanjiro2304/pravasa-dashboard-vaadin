@@ -1,4 +1,4 @@
-package info.pravasa.ui.route;
+package info.pravasa.ui.roadTransport.route;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -6,7 +6,6 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.renderer.LitRenderer;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Menu;
 import com.vaadin.flow.router.Route;
@@ -15,8 +14,8 @@ import com.vaadin.flow.spring.annotation.UIScope;
 import info.pravasa.dto.Company;
 import info.pravasa.dto.DepotDto;
 import info.pravasa.dto.RouteDto;
-import info.pravasa.ui.route.component.NewRouteDialog;
-import info.pravasa.ui.route.component.RouteDetailDialog;
+import info.pravasa.ui.roadTransport.route.component.NewRouteDialog;
+import info.pravasa.ui.roadTransport.route.component.RouteDetailDialog;
 
 import java.util.List;
 import java.util.Objects;

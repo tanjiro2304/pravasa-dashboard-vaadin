@@ -1,4 +1,4 @@
-package info.pravasa.ui.depotManagement;
+package info.pravasa.ui.roadTransport.depotManagement;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
@@ -12,7 +12,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import info.pravasa.dto.Company;
 import info.pravasa.dto.DepotDto;
-import info.pravasa.ui.depotManagement.component.AddDepotDialog;
+import info.pravasa.ui.roadTransport.depotManagement.component.AddDepotDialog;
 
 import java.util.List;
 import java.util.Objects;

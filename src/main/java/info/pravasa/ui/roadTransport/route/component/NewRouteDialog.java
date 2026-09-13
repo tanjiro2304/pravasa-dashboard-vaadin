@@ -1,4 +1,4 @@
-package info.pravasa.ui.route.component;
+package info.pravasa.ui.roadTransport.route.component;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;

@@ -1,4 +1,4 @@
-package info.pravasa.ui.company.components;
+package info.pravasa.ui.roadTransport.company.components;
 
 
 import com.vaadin.flow.component.button.Button;

@@ -1,4 +1,4 @@
-package info.pravasa.ui.company;
+package info.pravasa.ui.roadTransport.company;
 
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;

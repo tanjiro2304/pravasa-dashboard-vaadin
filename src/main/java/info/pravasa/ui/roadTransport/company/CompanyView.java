@@ -1,4 +1,4 @@
-package info.pravasa.ui.company;
+package info.pravasa.ui.roadTransport.company;
 
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
@@ -11,8 +11,7 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import info.pravasa.dto.City;
 import info.pravasa.dto.Company;
-import info.pravasa.ui.company.components.AddEditDialog;
-import jakarta.annotation.Resource;
+import info.pravasa.ui.roadTransport.company.components.AddEditDialog;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;

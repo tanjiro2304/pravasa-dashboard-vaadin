@@ -1,4 +1,4 @@
-package info.pravasa.ui.depotManagement.component;
+package info.pravasa.ui.roadTransport.depotManagement.component;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;

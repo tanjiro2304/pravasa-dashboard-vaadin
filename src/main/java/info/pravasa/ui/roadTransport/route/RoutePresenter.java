@@ -1,4 +1,4 @@
-package info.pravasa.ui.route;
+package info.pravasa.ui.roadTransport.route;
 
 import com.vaadin.copilot.shaded.javaparser.quality.NotNull;
 import com.vaadin.flow.spring.annotation.SpringComponent;

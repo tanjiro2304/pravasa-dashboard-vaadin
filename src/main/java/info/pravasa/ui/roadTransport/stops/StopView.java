@@ -1,4 +1,4 @@
-package info.pravasa.ui.stops;
+package info.pravasa.ui.roadTransport.stops;
 
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
