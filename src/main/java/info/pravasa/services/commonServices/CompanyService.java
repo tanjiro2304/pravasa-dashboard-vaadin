@@ -1,17 +1,13 @@
-package info.pravasa.services;
+package info.pravasa.services.commonServices;
 
 import info.pravasa.dto.Company;
-import info.pravasa.dto.RouteDto;
 import jakarta.annotation.Resource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import reactor.core.publisher.Mono;
 
-import java.lang.reflect.Type;
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class CompanyService {

@@ -1,8 +1,7 @@
-package info.pravasa.services;
+package info.pravasa.services.commonServices;
 
 
 import info.pravasa.dto.City;
-import info.pravasa.dto.Company;
 import jakarta.annotation.Resource;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;

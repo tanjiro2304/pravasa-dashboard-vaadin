@@ -1,13 +1,10 @@
-package info.pravasa.services;
+package info.pravasa.services.roadTransportServices;
 
-import info.pravasa.dto.DepotDto;
 import info.pravasa.dto.RouteDto;
-import info.pravasa.dto.filters.RouteFilter;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.w3c.dom.ls.LSInput;
 
 import java.util.List;
 

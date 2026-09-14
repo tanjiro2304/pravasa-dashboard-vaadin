@@ -4,9 +4,9 @@ import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import info.pravasa.dto.Company;
 import info.pravasa.dto.DepotDto;
-import info.pravasa.services.CompanyService;
-import info.pravasa.services.DepotService;
-import info.pravasa.services.RouteService;
+import info.pravasa.services.commonServices.CompanyService;
+import info.pravasa.services.roadTransportServices.DepotService;
+import info.pravasa.services.roadTransportServices.RouteService;
 
 import java.util.List;
 

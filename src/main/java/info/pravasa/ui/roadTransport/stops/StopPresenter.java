@@ -4,8 +4,7 @@ import com.vaadin.copilot.shaded.javaparser.quality.NotNull;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import info.pravasa.dto.Company;
-import info.pravasa.dto.StopDto;
-import info.pravasa.services.CompanyService;
+import info.pravasa.services.commonServices.CompanyService;
 
 import java.util.List;
 

@@ -1,8 +1,6 @@
-package info.pravasa.services;
+package info.pravasa.services.roadTransportServices;
 
-import info.pravasa.dto.Company;
 import info.pravasa.dto.DepotDto;
-import info.pravasa.dto.RouteDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
