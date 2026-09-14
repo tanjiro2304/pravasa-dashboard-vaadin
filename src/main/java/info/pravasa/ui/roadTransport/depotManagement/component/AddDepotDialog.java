@@ -5,6 +5,7 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.grid.editor.Editor;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -241,11 +242,15 @@ public class AddDepotDialog extends Dialog {
     }
 
     private void initializeMainLayout(){
-        mainLayout = new VerticalLayout(new HorizontalLayout(depotName, depotCode),
-                new HorizontalLayout(longitude, latitude),
-                new HorizontalLayout(emailField, staffCount),
-                new HorizontalLayout(contactInfo,routeCount ),
-                new HorizontalLayout(depotAddress), submit);
+        var formLayout = new FormLayout();
+        formLayout.setResponsiveSteps(
+                new FormLayout.ResponsiveStep("0", 1),
+                new FormLayout.ResponsiveStep("30rem", 2));
+        formLayout.add(depotName, depotCode, latitude, longitude, emailField, staffCount, contactInfo, routeCount,
+                depotAddress);
+        formLayout.setColspan(depotAddress, 2);
+
+        mainLayout = new VerticalLayout(formLayout, submit);
         mainLayout.setSizeFull();
         setHeight("35rem");
         setWidth("70rem");
