@@ -25,12 +25,17 @@ public class TrainService {
         return response.getBody();
     }
 
-    public void save(TrainDto trainDto) {
+    public TrainDto save(TrainDto trainDto) {
         String url = URL + "/save";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<TrainDto> entity = new HttpEntity<>(trainDto, httpHeaders);
-        restTemplate.exchange(url, HttpMethod.POST, entity, Void.class);
+        return restTemplate.exchange(url, HttpMethod.POST, entity, TrainDto.class).getBody();
+    }
+
+    public void delete(Long id) {
+        String url = URL + "/" + id;
+        restTemplate.delete(url);
     }
 }

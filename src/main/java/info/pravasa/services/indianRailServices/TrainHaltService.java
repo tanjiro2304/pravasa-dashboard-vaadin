@@ -1,6 +1,6 @@
 package info.pravasa.services.indianRailServices;
 
-import info.pravasa.dto.DivisionDto;
+import info.pravasa.dto.IrHaltDto;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -9,33 +9,33 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 
 @Service
-public class DivisionService {
+public class TrainHaltService {
 
     private final RestTemplate restTemplate;
 
-    private static final String URL = "http://localhost:8081/api/indian-railway/division";
+    private static final String URL = "http://localhost:8081/api/indian-railway/ir-halt";
 
-    public DivisionService(RestTemplate restTemplate) {
+    public TrainHaltService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public List<DivisionDto> fetchAllDivisions(Long zoneId) {
+    public List<IrHaltDto> fetchAllHalts(Long trainId) {
         String url = URL + "/findAll";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<Long> entity = new HttpEntity<>(zoneId, httpHeaders);
-        ResponseEntity<List<DivisionDto>> response = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<List<DivisionDto>>() {});
+        HttpEntity<Long> entity = new HttpEntity<>(trainId, httpHeaders);
+        ResponseEntity<List<IrHaltDto>> response = restTemplate.exchange(url, HttpMethod.POST, entity, new ParameterizedTypeReference<List<IrHaltDto>>() {});
         return response.getBody();
     }
 
-    public DivisionDto save(DivisionDto divisionDto) {
+    public IrHaltDto save(IrHaltDto irHaltDto) {
         String url = URL + "/save";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
-        HttpEntity<DivisionDto> entity = new HttpEntity<>(divisionDto, httpHeaders);
-        return restTemplate.exchange(url, HttpMethod.POST, entity, DivisionDto.class).getBody();
+        HttpEntity<IrHaltDto> entity = new HttpEntity<>(irHaltDto, httpHeaders);
+        return restTemplate.exchange(url, HttpMethod.POST, entity, IrHaltDto.class).getBody();
     }
 
     public void delete(Long id) {

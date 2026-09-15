@@ -25,12 +25,17 @@ public class ZoneService {
         return response.getBody();
     }
 
-    public void save(ZoneDto zoneDto) {
+    public ZoneDto save(ZoneDto zoneDto) {
         String url = URL + "/save";
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
 
         HttpEntity<ZoneDto> entity = new HttpEntity<>(zoneDto, httpHeaders);
-        restTemplate.exchange(url, HttpMethod.POST, entity, Void.class);
+        return restTemplate.exchange(url, HttpMethod.POST, entity, ZoneDto.class).getBody();
+    }
+
+    public void delete(Long id) {
+        String url = URL + "/" + id;
+        restTemplate.delete(url);
     }
 }
